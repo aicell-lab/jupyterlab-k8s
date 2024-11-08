@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=python-3.10
+ARG PYTHON_VERSION=python-3.11
 ARG BASE_IMAGE=jupyter/scipy-notebook
 FROM $BASE_IMAGE:$PYTHON_VERSION
 
@@ -46,7 +46,12 @@ RUN pip install --upgrade pip && \
       jupyterlab-spreadsheet-editor \
       hatch \
       jupyterlab-github \
-      jupyterlab-system-monitor
+      jupyterlab-system-monitor \
+      "ray[client]" \
+      hypha-rpc \
+      imjoy-rpc \
+      imjoy-jupyterlab-extension \
+      kaibu-utils
     #   jupyterlab_latex \
     #   mitosheet3
 
