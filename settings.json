@@ -1,5 +1,5 @@
 {
-    "workbench.colorTheme": "Better Solarized Dark",
+    "workbench.colorTheme": "Dark+",
     "python.dataScience.alwaysTrustNotebooks": true,
     "terminal.integrated.inheritEnv": true,
     "python.defaultInterpreterPath": "/opt/conda/bin/python",
