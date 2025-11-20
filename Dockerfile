@@ -47,7 +47,7 @@ RUN pip install --upgrade pip && \
       hatch \
       jupyterlab-github \
       jupyterlab-system-monitor \
-      "ray[client]==2.33.0" \
+      "ray[client]==2.49.2" \
       hypha-rpc \
       imjoy-rpc \
       imjoy-jupyterlab-extension \
