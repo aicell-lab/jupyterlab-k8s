@@ -1,5 +1,9 @@
 ARG PYTHON_VERSION=python-3.11
-ARG BASE_IMAGE=jupyter/scipy-notebook
+# The docker.io/jupyter/* org is frozen; Jupyter Docker Stacks now publishes
+# to quay.io/jupyter/* with weekly rebuilds against the latest base OS
+# patches. Pulling from quay drops the bulk of the OS-level High CVEs
+# reported against the stale docker.io image.
+ARG BASE_IMAGE=quay.io/jupyter/scipy-notebook
 FROM $BASE_IMAGE:$PYTHON_VERSION
 
 LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
