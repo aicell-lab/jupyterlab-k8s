@@ -68,15 +68,9 @@ RUN pip install --upgrade pip && \
 USER root
 
 RUN apt-get update && \
-    apt-get install -y tzdata curl wget unzip bzip2 zsh vim htop gfortran \
+    apt-get install -y --no-install-recommends \
+        tzdata curl wget unzip bzip2 zsh htop gfortran \
         python3-dev libpq-dev libclang-dev
-
-# Install Java kernel
-RUN wget -O /opt/ijava-kernel.zip https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
-    unzip /opt/ijava-kernel.zip -d /opt/ijava-kernel && \
-    cd /opt/ijava-kernel && \
-    python install.py --sys-prefix && \
-    rm /opt/ijava-kernel.zip
 
 
 # Install VS Code server and extensions
@@ -88,7 +82,6 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension zaaack.markdown-editor \
         --install-extension garlicbreadcleric.document-preview \
         --install-extension bungcip.better-toml \
-        --install-extension vscjava.vscode-java-pack \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
         --install-extension oderwat.indent-rainbow \
         --install-extension mechatroner.rainbow-csv \
@@ -124,17 +117,12 @@ RUN cd /opt && \
 #     mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
 #     rm -f ${RELEASE_TAG}-linux-x64.tar.gz
 
-# Install oc, kubectl and Helm
+# Install oc + kubectl. (kfctl + 32-bit helm 3.8.2 dropped — ancient Go stdlib.)
 RUN cd /tmp && \
     wget https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz && \
     tar xvf oc.tar.gz && \
     mv oc kubectl /usr/local/bin/ && \
-    wget https://github.com/kubeflow/kfctl/releases/download/v1.2.0/kfctl_v1.2.0-0-gbc038f9_linux.tar.gz && \
-    tar -xzf kfctl_v1.2.0-0-gbc038f9_linux.tar.gz  && \
-    mv kfctl /usr/local/bin/ && \
-    wget https://get.helm.sh/helm-v3.8.2-linux-386.tar.gz && \
-    tar -xzf helm-*-linux-386.tar.gz && \
-    mv linux-386/helm /usr/local/bin/
+    rm -f oc.tar.gz
 
 
 # Add JupyterLab and VSCode settings
