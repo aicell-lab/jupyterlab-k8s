@@ -38,7 +38,8 @@ RUN mamba install --quiet -y \
     #   jupyterlab-drawio \
       jupyterlab_rise \
       nb_conda_kernels \
-      'jupyter-server-proxy>=3.1.0'
+      'jupyter-server-proxy>=3.1.0' && \
+    mamba clean --all --yes
     # mamba install -y -c plotly 'plotly>=4.8.2'
 
     ## Install BeakerX kernels? Requires python 3.7
@@ -80,7 +81,6 @@ RUN code-server --install-extension redhat.vscode-yaml \
         --install-extension anwar.resourcemonitor \
         --install-extension rintoj.json-organizer \
         --install-extension zaaack.markdown-editor \
-        --install-extension garlicbreadcleric.document-preview \
         --install-extension bungcip.better-toml \
         --install-extension ginfuru.ginfuru-better-solarized-dark-theme \
         --install-extension oderwat.indent-rainbow \
@@ -117,12 +117,10 @@ RUN cd /opt && \
 #     mv -f ${RELEASE_TAG}-linux-x64 ${OPENVSCODE_SERVER_ROOT} && \
 #     rm -f ${RELEASE_TAG}-linux-x64.tar.gz
 
-# Install oc + kubectl. (kfctl + 32-bit helm 3.8.2 dropped — ancient Go stdlib.)
-RUN cd /tmp && \
-    wget https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz && \
-    tar xvf oc.tar.gz && \
-    mv oc kubectl /usr/local/bin/ && \
-    rm -f oc.tar.gz
+ARG KUBECTL_VERSION=v1.33.12
+RUN curl -fsSLo /usr/local/bin/kubectl \
+        "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" && \
+    chmod +x /usr/local/bin/kubectl
 
 
 # Add JupyterLab and VSCode settings
